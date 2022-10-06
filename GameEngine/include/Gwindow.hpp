@@ -44,6 +44,7 @@ class Gwindow {
                     if (event.type == sf::Event::Closed)
                         _window->close();
                 }
+                
                 _window->clear();
                 _window->display();
             }
