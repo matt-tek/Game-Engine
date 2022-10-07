@@ -6,7 +6,7 @@
 */
 
 #include "include.hpp"
-
+#include <ostream>
 #ifndef COMPONENT_HPP_
 #define COMPONENT_HPP_
 
@@ -25,23 +25,41 @@ class componentArray : public IcomponentArray {
 
     void insertInstance(int entity, T component)
     {
-        compInstances[lastElem] = component;
-        entityToIndex[entity] = lastElem;
-        indexToEntity[lastElem] = entity;
-        lastElem++;
+        _compInstances[currentEntity] = component;
+        _entityToIndex[entity] = currentEntity;
+        _indexToEntity[currentEntity] = entity;
+        currentEntity++;
         return;
     }
 
     void removeInstance(int entity)
     {
-        entityToIndex[0].erase();
+        size_t lastElem = _compInstances.size() - 1;
+
+        _compInstances[_entityToIndex.at(entity)] = _compInstances[lastElem];
+        _indexToEntity.erase(_entityToIndex.at(entity));
+        _entityToIndex.erase(entity);
     }
+    void printCompInstance() const
+    {
+        for (auto &i : _compInstances)
+            std::cout << "array = " << i << std::endl;       
+    };
+    std::unordered_map<int, int> _indexToEntity;
+    std::unordered_map<int, int> _entityToIndex;
 
     private:
-    int lastElem = 0;
-    std::array<T, MAX_ENTITIES> compInstances;
-    std::unordered_map<int, int> indexToEntity;
-    std::unordered_map<int, int> entityToIndex;
+    std::size_t currentEntity = 0;
+    std::array<T, MAX_ENTITIES> _compInstances;
 };
 
+template <typename T, typename S>
+std::ostream& operator<<(std::ostream& os, const std::unordered_map<T, S>& v)
+{
+    for (auto it : v) 
+        os << it.first << " : " 
+           << it.second << "\n";
+      
+    return os;
+}
 #endif /* !COMPONENT_HPP_ */

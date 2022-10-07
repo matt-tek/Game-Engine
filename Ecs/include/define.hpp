@@ -9,6 +9,6 @@
 #define DEFINE_HPP_
 
 #define MAX_ENTITIES 20
-#define MAX_COMPONENTS 5
+#define MAX_COMPONENTS 20
 
 #endif /* !DEFINE_HPP_ */
