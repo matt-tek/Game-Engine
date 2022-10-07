@@ -42,10 +42,15 @@ class componentArray : public IcomponentArray {
     void printCompInstance() const
     {
         for (auto &i : _compInstances)
-            std::cout << "array = " << i << std::endl;       
+            std::cout << "array = " << i << std::endl;
     };
     std::unordered_map<int, int> getIndexToEntityMap() const { return _indexToEntity; };
     std::unordered_map<int, int> getEntityToIndexMap() const { return _entityToIndex; };
+    T& getComponent(int entity)
+    {
+        return _compInstances[_entityToIndex[entity]];
+    }
+
     private:
     std::size_t currentEntity = 0;
     std::array<T, MAX_ENTITIES> _compInstances;
