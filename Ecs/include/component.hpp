@@ -43,12 +43,17 @@ class componentArray : public IcomponentArray {
     void printCompInstance() const
     {
         for (auto &i : _compInstances)
-            std::cout << "array = " << i << std::endl;       
+            std::cout << "array = " << i << std::endl;
     };
-    std::unordered_map<int, int> _indexToEntity;
-    std::unordered_map<int, int> _entityToIndex;
+
+    T& getComponent(int entity)
+    {
+        return _compInstances[_entityToIndex[entity]];
+    }
 
     private:
+    std::unordered_map<int, int> _indexToEntity;
+    std::unordered_map<int, int> _entityToIndex;
     std::size_t currentEntity = 0;
     std::array<T, MAX_ENTITIES> _compInstances;
 };
@@ -56,10 +61,10 @@ class componentArray : public IcomponentArray {
 template <typename T, typename S>
 std::ostream& operator<<(std::ostream& os, const std::unordered_map<T, S>& v)
 {
-    for (auto it : v) 
-        os << it.first << " : " 
+    for (auto it : v)
+        os << it.first << " : "
            << it.second << "\n";
-      
+
     return os;
 }
 #endif /* !COMPONENT_HPP_ */
