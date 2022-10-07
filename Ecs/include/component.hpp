@@ -5,10 +5,9 @@
 ** component
 */
 
+#pragma once
 #include "include.hpp"
 #include <ostream>
-#ifndef COMPONENT_HPP_
-#define COMPONENT_HPP_
 
 class IcomponentArray {
     public:
@@ -45,21 +44,19 @@ class componentArray : public IcomponentArray {
         for (auto &i : _compInstances)
             std::cout << "array = " << i << std::endl;       
     };
-    std::unordered_map<int, int> _indexToEntity;
-    std::unordered_map<int, int> _entityToIndex;
-
+    std::unordered_map<int, int> getIndexToEntityMap() const { return _indexToEntity; };
+    std::unordered_map<int, int> getEntityToIndexMap() const { return _entityToIndex; };
     private:
     std::size_t currentEntity = 0;
     std::array<T, MAX_ENTITIES> _compInstances;
+    std::unordered_map<int, int> _indexToEntity;
+    std::unordered_map<int, int> _entityToIndex;
 };
 
 template <typename T, typename S>
-std::ostream& operator<<(std::ostream& os, const std::unordered_map<T, S>& v)
+std::ostream& operator<<(std::ostream& os, const std::unordered_map<T, S>&v)
 {
     for (auto it : v) 
-        os << it.first << " : " 
-           << it.second << "\n";
-      
+        os << it.first << " : " << it.second << "\n";
     return os;
 }
-#endif /* !COMPONENT_HPP_ */

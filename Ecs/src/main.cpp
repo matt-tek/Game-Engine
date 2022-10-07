@@ -18,13 +18,13 @@ int main(void)
     test.insertInstance(3, 400);
     test.insertInstance(4, 500);
 
-    std::cout << "entity to index\n" << test._entityToIndex << std::endl;
-    std::cout << "index to entity\n" << test._indexToEntity << std::endl;
+    std::cout << "entity to index\n" << test.getEntityToIndexMap() << std::endl;
+    std::cout << "index to entity\n" << test.getIndexToEntityMap() << std::endl;
 
     test.removeInstance(2);
-
-    std::cout << "entity to index\n" << test._entityToIndex << std::endl;
-    std::cout << "index to entity\n" << test._indexToEntity << std::endl;
+    
+    std::cout << "entity to index\n" << test.getEntityToIndexMap() << std::endl;
+    std::cout << "index to entity\n" << test.getIndexToEntityMap() << std::endl;
     test.printCompInstance();
     return 0;
 }
