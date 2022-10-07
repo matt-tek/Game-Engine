@@ -6,7 +6,7 @@
 */
 
 #include "Entity.hpp"
-#include "Component.hpp"
+#include "ComponentManager.hpp"
 
 int main(void)
 {
@@ -22,7 +22,7 @@ int main(void)
     std::cout << "index to entity\n" << test.getIndexToEntityMap() << std::endl;
 
     test.removeInstance(2);
-    
+
     std::cout << "entity to index\n" << test.getEntityToIndexMap() << std::endl;
     std::cout << "index to entity\n" << test.getIndexToEntityMap() << std::endl;
     test.printCompInstance();

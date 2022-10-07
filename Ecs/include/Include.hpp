@@ -11,7 +11,9 @@
 #include <bitset>
 #include <iostream>
 #include <queue>
+#include <memory>
 #include <map>
+#include <set>
 #include <unordered_map>
 
 #ifndef INCLUDE_HPP_
