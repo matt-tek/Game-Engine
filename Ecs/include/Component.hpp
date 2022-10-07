@@ -6,7 +6,7 @@
 */
 
 #pragma once
-#include "include.hpp"
+#include "Include.hpp"
 #include <ostream>
 
 class IcomponentArray {

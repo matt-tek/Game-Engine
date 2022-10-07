@@ -5,8 +5,8 @@
 ** main
 */
 
-#include "entity.hpp"
-#include "component.hpp"
+#include "Entity.hpp"
+#include "Component.hpp"
 
 int main(void)
 {

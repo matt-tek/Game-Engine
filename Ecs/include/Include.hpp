@@ -5,7 +5,7 @@
 ** include
 */
 
-#include "define.hpp"
+#include "Define.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <bitset>

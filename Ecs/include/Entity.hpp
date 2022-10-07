@@ -5,11 +5,8 @@
 ** ecs
 */
 
-#include "include.hpp"
-
-#ifndef ECS_HPP_
-#define ECS_HPP_
-
+#pragma once
+#include "Include.hpp"
 
 class entityManager {
     public:
@@ -47,5 +44,3 @@ class entityManager {
     std::queue<int> _entities;
     std::array<std::bitset<MAX_COMPONENTS>, MAX_ENTITIES> _signatures;
 };
-
-#endif /* !ECS_HPP_ */
