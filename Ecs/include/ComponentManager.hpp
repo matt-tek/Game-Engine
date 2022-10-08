@@ -11,7 +11,7 @@
 #ifndef COMPONENTMANAGER_HPP_
 #define COMPONENTMANAGER_HPP_
 
-class componentManager {
+class ComponentManager {
     public:
 
     /**

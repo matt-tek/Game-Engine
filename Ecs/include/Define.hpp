@@ -8,7 +8,8 @@
 #ifndef DEFINE_HPP_
 #define DEFINE_HPP_
 
-#include "Include.hpp"
+#include <bitset>
+#include <memory>
 
 #define MAX_ENTITIES 20
 #define MAX_COMPONENTS 20

@@ -8,13 +8,13 @@
 #pragma once
 #include "Include.hpp"
 
-class entityManager {
+class EntityManager {
     public:
     /**
     * @brief Initialize all entities to i starting from 0
     *
     */
-    entityManager(void)
+    EntityManager(void)
     {
         for (int i = 0; i < MAX_ENTITIES; i++)
             _entities.push(i);

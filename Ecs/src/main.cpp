@@ -5,9 +5,7 @@
 ** main
 */
 
-#include "EntityManager.hpp"
-#include "ComponentManager.hpp"
-#include "SystemManager.hpp"
+#include "EcsApi.hpp"
 
 int main(void)
 {
@@ -22,9 +20,7 @@ int main(void)
     std::cout << "entity to index\n" << test.getEntityToIndexMap() << std::endl;
     std::cout << "index to entity\n" << test.getIndexToEntityMap() << std::endl;
 
-    test.removeInstance(2);
-
-    std::cout << "entity to index\n" << test.getEntityToIndexMap() << std::endl;
+    test.removeInstance(2);/o index\n" << test.getEntityToIndexMap() << std::endl;
     std::cout << "index to entity\n" << test.getIndexToEntityMap() << std::endl;
     test.printCompInstance(); */
     std::unordered_map<std::string, int> map;
