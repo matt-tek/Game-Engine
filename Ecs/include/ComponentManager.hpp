@@ -52,9 +52,9 @@ class ComponentManager {
     * @param T component to be removed
     */
     template<typename T>
-    void deleteComp(int entity, T component)
+    void deleteComp(int entity)
     {
-        getCompPtr<T>()->removeInstance(entity, component);
+        getCompPtr<T>()->removeInstance(entity);
     }
 
     /**

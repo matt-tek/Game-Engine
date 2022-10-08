@@ -63,7 +63,6 @@ class EntityManager {
     {
         return _signatures[entity];
     }
-
     private:
 
     /**
