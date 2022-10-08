@@ -21,7 +21,7 @@ class componentManager {
     void registerComp()
     {
         _registeredComp.insert({typeid(T).name(), currentComp});
-        _componentsPtr.insert({typeid(T).name(), std::make_shared<componentArray<T>>()});
+        _componentsPtrArr.insert({typeid(T).name(), std::make_shared<componentArray<T>>()});
         currentComp++;
     }
 
@@ -74,7 +74,7 @@ class componentManager {
 	std::shared_ptr<componentArray<T>> getCompPtr()
 	{
 		return std::static_pointer_cast<componentArray<T>>
-            (_componentsPtr[typeid(T).name()]);
+            (_componentsPtrArr[typeid(T).name()]);
 	}
 
     /**
