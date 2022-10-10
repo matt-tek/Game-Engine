@@ -14,15 +14,18 @@ class SystemManager {
         SystemManager() {
             _sysMap = {};
         };
-        ~SystemManager();
+
+        ~SystemManager() = default;
 
         /**
         * @brief Register a system to systems pointer array
         */
         template <typename T>
         std::shared_ptr<T> RegisterSystem() {
-            char *name = typeid(T).name();
+            const char *tmp = typeid(T).name();
+            std::string name = tmp;
             auto system = std::make_shared<T>();
+
             _sysMap.insert({name, system});
             return system;
         }
@@ -71,11 +74,11 @@ class SystemManager {
         /**
         * @brief map giving signature with given system name
         */
-        std::unordered_map<char const *, Signature> _signatureMap;
+        std::unordered_map<std::string, Signature> _signatureMap;
 
         /**
         * @brief map giving pointer to system with given system name
         */
-        std::unordered_map<char const *, std::shared_ptr<System>> _sysMap;
+        std::unordered_map<std::string, std::shared_ptr<System>> _sysMap;
 
 };

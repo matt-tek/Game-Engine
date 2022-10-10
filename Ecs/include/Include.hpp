@@ -8,9 +8,11 @@
 #include "Define.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 #include <bitset>
 #include <iostream>
 #include <queue>
+#include <string>
 #include <memory>
 #include <map>
 #include <set>

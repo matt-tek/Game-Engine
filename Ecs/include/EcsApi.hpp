@@ -104,7 +104,7 @@ class EcsApi {
     template <typename T>
     std::shared_ptr<T> registerSystem()
     {
-        return _systems->RegisterSystem();
+        return _systems->RegisterSystem<T>();
     }
 
     /**
@@ -114,7 +114,7 @@ class EcsApi {
     template <typename T>
     void setSystemSignature(Signature signature)
     {
-        _systems->setSignature(signature);
+        _systems->setSignature<T>(signature);
     }
     private:
     /**
