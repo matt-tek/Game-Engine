@@ -40,9 +40,11 @@ class ComponentManager {
     * @param T component to be attached to entity
     */
     template<typename T>
-    void addComp(int entity, T component)
+    void addComp(int entity)
     {
-        getCompPtr<T>()->insertInstance(entity, component);
+        T obj;
+
+        getCompPtr<T>()->insertInstance(entity, obj);
     }
 
 
