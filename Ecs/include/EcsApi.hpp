@@ -116,6 +116,8 @@ class EcsApi {
     {
         _systems->setSignature<T>(signature);
     }
+    std::unique_ptr<ComponentManager> _components;
+
     private:
     /**
     * @brief pointer to entity manager class
@@ -125,7 +127,6 @@ class EcsApi {
     /**
     * @brief pointer to component manager class
     */
-    std::unique_ptr<ComponentManager> _components;
 
     /**
     * @brief pointer to system manager class

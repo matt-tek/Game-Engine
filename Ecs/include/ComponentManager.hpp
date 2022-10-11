@@ -90,6 +90,14 @@ class ComponentManager {
 			component->entityIsDestroyed(entity);
 		}
 	}
+
+    template<typename T>
+    T *getCompClassPtr(void)
+    {
+        T object;
+
+        return object.getComponent();
+    }
     private:
 
     /**
