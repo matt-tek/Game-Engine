@@ -6,39 +6,10 @@
 */
 
 #include "Game.hpp"
+#include "AllComponents.hpp"
 
 EcsApi ecs;
-
-class Transform {
-    public:
-    Transform() = default;
-    void move(float off_x, float off_y) {
-        _pos.x += off_x;
-        _pos.y += off_y;
-    }
-    sf::Vector2f getPos(void) const
-    {
-        return _pos;
-    }
-
-    float getRotation(void) const
-    {
-        return _rotate;
-    }
-    private:
-    sf::Vector2f _pos = {0.0f, 0.0f};
-    float _rotate = 0.0f;
-};
-
-class Gravity {
-    public:
-    Gravity *getComponent(void)
-    {
-        return this;
-    }
-    sf::Vector2f _pos = {0.0f, 0.0f};
-    float _rotate = 0.0f;
-};
+Game game;
 
 class Players : public System {
     public:
@@ -54,23 +25,34 @@ class Players : public System {
 
 int main(void)
 {
+    // register component
     ecs.registerComp<Transform>();
     ecs.registerComp<Gravity>();
+    ecs.registerComp<Sprite>();
 
+    // register system
     auto system = ecs.registerSystem<Players>();
     Signature s;
     std::cout << s << std::endl;
     s.set(ecs.getComponentId<Transform>());
+    s.set(ecs.getComponentId<Sprite>());
     std::cout << s << std::endl;
+
     ecs.setSystemSignature<Players>(s);
-    ecs._components->getCompClassPtr<Gravity>();
 
     int e = ecs.createEntity();
     ecs.addComponent<Transform>(e);
+    ecs.addComponent<Sprite>(e);
+
     std::cout << "1 = " << getEntityPositionX(e) << std::endl;
     ecs.getComponent<Transform>(e).move(1, 0);
     std::cout << "1 = " << getEntityPositionX(e) << std::endl;
 
+    game.run();
+
+    ecs.getComponent<Sprite>(e).setSprite("soul.png");
+    ecs.getComponent<Sprite>(e).draw(game.getWindow()->getWindow());
+    
     return 0;
 }
 
