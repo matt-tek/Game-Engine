@@ -11,6 +11,21 @@ EcsApi ecs;
 
 class Transform {
     public:
+    Transform() = default;
+    void move(float off_x, float off_y) {
+        _pos.x += off_x;
+        _pos.y += off_y;
+    }
+    sf::Vector2f getPos(void) const
+    {
+        return _pos;
+    }
+
+    float getRotation(void) const
+    {
+        return _rotate;
+    }
+    private:
     sf::Vector2f _pos = {0.0f, 0.0f};
     float _rotate = 0.0f;
 };
@@ -51,20 +66,11 @@ int main(void)
     ecs._components->getCompClassPtr<Gravity>();
 
     int e = ecs.createEntity();
-    int e2 = ecs.createEntity();
-    Transform t;
-    ecs.addComponent<Transform>(e, t);
-    std::cout << "1 = " << ecs.getComponent<Transform>(e)._pos.x << std::endl;
-    ecs.getComponent<Transform>(e)._pos.x = 1.0f;
-    std::cout << "1 = " << ecs.getComponent<Transform>(e)._pos.x << std::endl;
+    ecs.addComponent<Transform>(e);
+    std::cout << "1 = " << getEntityPositionX(e) << std::endl;
+    ecs.getComponent<Transform>(e).move(1, 0);
+    std::cout << "1 = " << getEntityPositionX(e) << std::endl;
 
-    ecs.addComponent<Transform>(e2, t);
-    std::cout << "2 = " << ecs.getComponent<Transform>(e2)._pos.x << std::endl;
-    ecs.getComponent<Transform>(e2)._pos.x = 3.0f;
-    std::cout << "2 = " << ecs.getComponent<Transform>(e2)._pos.x << std::endl;
-
-    std::cout << "1 = " << ecs.getComponent<Transform>(e)._pos.x << std::endl;
-    std::cout << "2 = " << ecs.getComponent<Transform>(e2)._pos.x << std::endl;
     return 0;
 }
 

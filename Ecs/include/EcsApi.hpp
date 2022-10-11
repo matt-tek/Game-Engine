@@ -55,11 +55,11 @@ class EcsApi {
     * @param T generic type component to be added
     */
     template <typename T>
-    void addComponent(int entity, T component)
+    void addComponent(int entity)
     {
         Signature replace;
 
-        _components->addComp(entity, component);
+        _components->addComp<T>(entity);
         replace.set(_components->getCompTypeId<T>(), true);
         _entities->setSignature(entity, replace);
         _systems->entityChanged(entity, replace);
