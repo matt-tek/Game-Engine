@@ -55,11 +55,11 @@ class EcsApi {
     * @param T generic type component to be added
     */
     template <typename T>
-    void addComponent(int entity, T component)
+    void addComponent(int entity)
     {
         Signature replace;
 
-        _components->addComp(entity, component);
+        _components->addComp<T>(entity);
         replace.set(_components->getCompTypeId<T>(), true);
         _entities->setSignature(entity, replace);
         _systems->entityChanged(entity, replace);
@@ -116,6 +116,8 @@ class EcsApi {
     {
         _systems->setSignature<T>(signature);
     }
+    std::unique_ptr<ComponentManager> _components;
+
     private:
     /**
     * @brief pointer to entity manager class
@@ -125,7 +127,6 @@ class EcsApi {
     /**
     * @brief pointer to component manager class
     */
-    std::unique_ptr<ComponentManager> _components;
 
     /**
     * @brief pointer to system manager class

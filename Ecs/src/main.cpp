@@ -9,14 +9,35 @@
 
 EcsApi ecs;
 
-struct Transform {
-    sf::Vector2f _pos;
-    float _rotate;
+class Transform {
+    public:
+    Transform() = default;
+    void move(float off_x, float off_y) {
+        _pos.x += off_x;
+        _pos.y += off_y;
+    }
+    sf::Vector2f getPos(void) const
+    {
+        return _pos;
+    }
+
+    float getRotation(void) const
+    {
+        return _rotate;
+    }
+    private:
+    sf::Vector2f _pos = {0.0f, 0.0f};
+    float _rotate = 0.0f;
 };
 
-struct Gravity {
-    sf::Vector2f _pos;
-    float _rotate;
+class Gravity {
+    public:
+    Gravity *getComponent(void)
+    {
+        return this;
+    }
+    sf::Vector2f _pos = {0.0f, 0.0f};
+    float _rotate = 0.0f;
 };
 
 class Players : public System {
@@ -42,10 +63,14 @@ int main(void)
     s.set(ecs.getComponentId<Transform>());
     std::cout << s << std::endl;
     ecs.setSystemSignature<Players>(s);
+    ecs._components->getCompClassPtr<Gravity>();
 
     int e = ecs.createEntity();
-    Transform t;
-    ecs.addComponent<Transform>(e, t);
+    ecs.addComponent<Transform>(e);
+    std::cout << "1 = " << getEntityPositionX(e) << std::endl;
+    ecs.getComponent<Transform>(e).move(1, 0);
+    std::cout << "1 = " << getEntityPositionX(e) << std::endl;
+
     return 0;
 }
 
