@@ -9,14 +9,20 @@
 
 EcsApi ecs;
 
-struct Transform {
-    sf::Vector2f _pos;
-    float _rotate;
+class Transform {
+    public:
+    sf::Vector2f _pos = {0.0f, 0.0f};
+    float _rotate = 0.0f;
 };
 
-struct Gravity {
-    sf::Vector2f _pos;
-    float _rotate;
+class Gravity {
+    public:
+    Gravity *getComponent(void)
+    {
+        return this;
+    }
+    sf::Vector2f _pos = {0.0f, 0.0f};
+    float _rotate = 0.0f;
 };
 
 class Players : public System {
@@ -42,10 +48,23 @@ int main(void)
     s.set(ecs.getComponentId<Transform>());
     std::cout << s << std::endl;
     ecs.setSystemSignature<Players>(s);
+    ecs._components->getCompClassPtr<Gravity>();
 
     int e = ecs.createEntity();
+    int e2 = ecs.createEntity();
     Transform t;
     ecs.addComponent<Transform>(e, t);
+    std::cout << "1 = " << ecs.getComponent<Transform>(e)._pos.x << std::endl;
+    ecs.getComponent<Transform>(e)._pos.x = 1.0f;
+    std::cout << "1 = " << ecs.getComponent<Transform>(e)._pos.x << std::endl;
+
+    ecs.addComponent<Transform>(e2, t);
+    std::cout << "2 = " << ecs.getComponent<Transform>(e2)._pos.x << std::endl;
+    ecs.getComponent<Transform>(e2)._pos.x = 3.0f;
+    std::cout << "2 = " << ecs.getComponent<Transform>(e2)._pos.x << std::endl;
+
+    std::cout << "1 = " << ecs.getComponent<Transform>(e)._pos.x << std::endl;
+    std::cout << "2 = " << ecs.getComponent<Transform>(e2)._pos.x << std::endl;
     return 0;
 }
 
