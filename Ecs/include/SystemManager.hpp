@@ -64,8 +64,9 @@ class SystemManager {
                     && _signatureMap[i.first] != signature)
                     i.second->entitySet.erase(entity);
                 if (i.second->entitySet.find(entity) == i.second->entitySet.end()
-                    && _signatureMap[i.first] == signature)
+                    && _signatureMap[i.first] == signature) {
                     i.second->entitySet.insert(entity);
+                }
             }
         }
 

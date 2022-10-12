@@ -5,6 +5,7 @@
 ** componentManager
 */
 
+#pragma once
 #include "Include.hpp"
 #include "Component.hpp"
 

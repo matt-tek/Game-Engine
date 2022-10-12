@@ -6,23 +6,21 @@
 */
 
 #pragma once
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <vector>
-#include <string>
-#include <unordered_map>
+
+#include "Global.hpp"
+#include "ComponentManager.hpp"
+#include "AllComponents.hpp"
+
+class Game;
 
 class Window {
     public:
         /**
          * @brief Construct a new Gwindow object
-         * 
          * @param width width of the window
          * @param height height of the window
          * @param title name of the window
          */
-
         Window(const int &width, const int &height, const std::string &title) {
             _width = width;
             _height = height;
@@ -33,6 +31,12 @@ class Window {
         ~Window() {
             delete _window;
         };
+
+        void update(void)
+        {
+            return;
+        }
+
         /**
          * @brief run command for display the window
          */
@@ -44,12 +48,12 @@ class Window {
                         _window->close();
                 }
                 _window->clear();
+                update();
                 _window->display();
+                usleep(1000);
             }
         };
-        // void addDrawableElement(Gsprite &sprite) {
-        //     _renderObject.push_back(sprite);
-        // };
+
         /**
          * @brief getters
          */
@@ -57,33 +61,29 @@ class Window {
         int getWidth() const { return _width; };
         int getHeight() const { return _height; };
         sf::RenderWindow *getWindow() const { return _window; };
+
         /**
          * @brief setters
          */
         void setWindowName(const std::string &windowName) { _windowName = windowName; };
         void setWidth(const int &width) { _width = width; };
         void setHeight(const int &height) { _height = height; };
-        
     protected:
     private:
         /**
          * @brief window name
-         * 
          */
         std::string _windowName;
         /**
          * @brief window from SFML library
-         * 
          */
         sf::RenderWindow *_window;
         /**
          * @brief width of the window
-         * 
          */
         int _width;
         /**
          * @brief height of the window
-         * 
          */
         int _height;
 };

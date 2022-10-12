@@ -5,6 +5,7 @@
 ** include
 */
 
+#pragma once
 #include "Define.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
