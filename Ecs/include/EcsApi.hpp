@@ -5,6 +5,7 @@
 ** EcsApi
 */
 
+#pragma once
 #include "ComponentManager.hpp"
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
@@ -60,9 +61,11 @@ class EcsApi {
         Signature replace;
 
         _components->addComp<T>(entity);
+        replace = _entities->getSignature(entity);
         replace.set(_components->getCompTypeId<T>(), true);
         _entities->setSignature(entity, replace);
         _systems->entityChanged(entity, replace);
+        std::cout << replace << std::endl;
     }
 
     /**

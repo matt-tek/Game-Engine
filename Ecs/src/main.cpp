@@ -6,71 +6,75 @@
 */
 
 #include "Game.hpp"
+#include "AllComponents.hpp"
 
-EcsApi ecs;
-
-class Transform {
-    public:
-    Transform() = default;
-    void move(float off_x, float off_y) {
-        _pos.x += off_x;
-        _pos.y += off_y;
-    }
-    sf::Vector2f getPos(void) const
-    {
-        return _pos;
-    }
-
-    float getRotation(void) const
-    {
-        return _rotate;
-    }
-    private:
-    sf::Vector2f _pos = {0.0f, 0.0f};
-    float _rotate = 0.0f;
-};
-
-class Gravity {
-    public:
-    Gravity *getComponent(void)
-    {
-        return this;
-    }
-    sf::Vector2f _pos = {0.0f, 0.0f};
-    float _rotate = 0.0f;
-};
+Game game;
 
 class Players : public System {
     public:
     void update(void)
     {
         for (int i = 0; i < (int)entitySet.size(); i++) {
-            ecs.getComponent<Transform>(i);
+            game.ecs.getComponent<Transform>(i);
         }
         return;
     }
     private:
 };
 
+class Sprite {
+    public:
+        Sprite() = default;
+        ~Sprite() = default;
+        void setSprite(const std::string &path) {
+            _texture.loadFromFile(path);
+            _sprite.setTexture(_texture);
+        }
+        sf::Sprite getSprite(void) const { return _sprite; }
+        void draw(sf::RenderWindow *window) {
+            window->draw(_sprite);
+        }
+    private:
+        sf::Texture _texture;
+        sf::Sprite _sprite;
+};
+
 int main(void)
 {
-    ecs.registerComp<Transform>();
-    ecs.registerComp<Gravity>();
+    // register component
+    game.ecs.registerComp<Transform>();
+    game.ecs.registerComp<Sprite>();
 
-    auto system = ecs.registerSystem<Players>();
+    // register system
+    game._systems.push_back(game.ecs.registerSystem<Players>());
+
+    //Set signature
     Signature s;
-    std::cout << s << std::endl;
-    s.set(ecs.getComponentId<Transform>());
-    std::cout << s << std::endl;
-    ecs.setSystemSignature<Players>(s);
-    ecs._components->getCompClassPtr<Gravity>();
+    s.set(game.ecs.getComponentId<Sprite>(), 1);
+    s.set(game.ecs.getComponentId<Transform>(), 1);
+    game.ecs.setSystemSignature<Players>(s);
 
-    int e = ecs.createEntity();
-    ecs.addComponent<Transform>(e);
-    std::cout << "1 = " << getEntityPositionX(e) << std::endl;
-    ecs.getComponent<Transform>(e).move(1, 0);
-    std::cout << "1 = " << getEntityPositionX(e) << std::endl;
+    int e = game.ecs.createEntity();
+    game.ecs.addComponent<Transform>(e);
+    game.ecs.addComponent<Sprite>(e);
 
+    game.ecs.getComponent<Sprite>(e).setSprite("../../assets/soul.png");
+
+    sf::RenderWindow *_window = new sf::RenderWindow(sf::VideoMode(800, 600), "toto");
+
+    while (_window->isOpen()) {
+        sf::Event event;
+        while (_window->pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                _window->close();
+        }
+        _window->clear();
+        for (auto i : game._systems[0]->entitySet) {
+            game.ecs.getComponent<Sprite>(i).draw(_window);
+        }
+        _window->display();
+        usleep(1000);
+    }
     return 0;
 }
 
@@ -78,6 +82,18 @@ int main(void)
 
 
 
+/*     sf::RenderWindow *_window = new sf::RenderWindow(sf::VideoMode(800, 600), "toto");
+
+    while (_window->isOpen()) {
+        sf::Event event;
+        while (_window->pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                _window->close();
+        }
+        game.ecs.getComponent<Transform>(e).move(1.0f, 0.0f);
+        game.ecs.getComponent<Sprite>(e).draw(_window);
+        _window->display();
+    } */
 /*     componentArray<int> test;
 
     test.insertInstance(0, 100);

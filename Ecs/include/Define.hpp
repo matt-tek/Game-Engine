@@ -10,6 +10,7 @@
 
 #include <bitset>
 #include <memory>
+#include <unistd.h>
 
 #define MAX_ENTITIES 20
 #define MAX_COMPONENTS 20
@@ -26,6 +27,9 @@
 */
 #define getEntityPositionY(a) ecs.getComponent<Transform>(a).getPos().y
 
+/**
+* @brief Signaature showing attached compoonents
+*/
 using Signature = std::bitset<MAX_COMPONENTS>;
 
 #endif /* !DEFINE_HPP_ */

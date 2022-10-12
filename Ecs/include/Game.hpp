@@ -5,23 +5,26 @@
 ** Game
 */
 
+#pragma once
+
 #include "Include.hpp"
 #include "EcsApi.hpp"
-
-#ifndef GAME_HPP_
-#define GAME_HPP_
-
-class StateManager {
-    public:
-    private:
-};
+#include "Window.hpp"
 
 class Game {
     public:
-
+        Game() {
+            _win = new Window(800, 600, "Game");
+        };
+        ~Game() {
+            delete _win;
+        };
+        void run() {
+            _win->run();
+        }
+        Window *getWindow() const { return _win; };
+        EcsApi ecs;
+        std::vector<std::shared_ptr<System>> _systems;
     private:
-    sf::RenderWindow *_window;
-    EcsApi ecs;
+        Window *_win;
 };
-
-#endif /* !GAME_HPP_ */
