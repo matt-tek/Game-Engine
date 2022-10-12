@@ -6,6 +6,7 @@
 */
 
 #pragma once
+#include "Include.hpp"
 #include "Game.hpp"
 
 class Transform {
@@ -37,4 +38,21 @@ class Gravity {
     }
     sf::Vector2f _pos = {0.0f, 0.0f};
     float _rotate = 0.0f;
+};
+
+class Sprite {
+    public:
+        Sprite() = default;
+        ~Sprite() = default;
+        void setSprite(const std::string &path) {
+            _texture.loadFromFile(path);
+            _sprite.setTexture(_texture);
+        }
+        sf::Sprite getSprite(void) const { return _sprite; }
+        void draw(sf::RenderWindow *window) {
+            window->draw(_sprite);
+        }
+    private:
+        sf::Texture _texture;
+        sf::Sprite _sprite;
 };

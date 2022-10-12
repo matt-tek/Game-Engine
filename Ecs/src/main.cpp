@@ -8,7 +8,7 @@
 #include "Game.hpp"
 #include "AllComponents.hpp"
 
-Game game;
+Game game(600, 800, "Game");
 
 class Players : public System {
     public:
@@ -22,23 +22,6 @@ class Players : public System {
     private:
 };
 
-class Sprite {
-    public:
-        Sprite() = default;
-        ~Sprite() = default;
-        void setSprite(const std::string &path) {
-            _texture.loadFromFile(path);
-            _sprite.setTexture(_texture);
-        }
-        sf::Sprite getSprite(void) const { return _sprite; }
-        void draw(sf::RenderWindow *window) {
-            window->draw(_sprite);
-        }
-    private:
-        sf::Texture _texture;
-        sf::Sprite _sprite;
-};
-
 int main(void)
 {
     // register component
@@ -47,7 +30,6 @@ int main(void)
 
     // register system
     game._systems.push_back(game.ecs.registerSystem<Players>());
-
     //Set signature
     Signature s;
     s.set(game.ecs.getComponentId<Sprite>(), 1);
@@ -60,21 +42,7 @@ int main(void)
 
     game.ecs.getComponent<Sprite>(e).setSprite("../../assets/soul.png");
 
-    sf::RenderWindow *_window = new sf::RenderWindow(sf::VideoMode(800, 600), "toto");
-
-    while (_window->isOpen()) {
-        sf::Event event;
-        while (_window->pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                _window->close();
-        }
-        _window->clear();
-        for (auto i : game._systems[0]->entitySet) {
-            game.ecs.getComponent<Sprite>(i).draw(_window);
-        }
-        _window->display();
-        usleep(1000);
-    }
+    game.run();
     return 0;
 }
 

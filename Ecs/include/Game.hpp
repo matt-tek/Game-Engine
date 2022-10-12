@@ -7,24 +7,60 @@
 
 #pragma once
 
+#include "AllComponents.hpp"
 #include "Include.hpp"
 #include "EcsApi.hpp"
-#include "Window.hpp"
 
 class Game {
     public:
-        Game() {
-            _win = new Window(800, 600, "Game");
+        Game(const int &width, const int &height, const std::string &title) {
+            _width = width;
+            _height = height;
+            _windowName = title;
+            _window = new sf::RenderWindow(sf::VideoMode(_width, _height), _windowName);
+            _window->setFramerateLimit(60);
         };
+
         ~Game() {
-            delete _win;
+            delete _window;
         };
+
+        void update() {
+            return;
+        };
+
         void run() {
-            _win->run();
+            while (_window->isOpen()) {
+                sf::Event event;
+                while (_window->pollEvent(event)) {
+                    if (event.type == sf::Event::Closed)
+                        _window->close();
+                }
+                _window->clear();
+                for (auto i : _systems[0]->entitySet) {
+                    ecs.getComponent<Sprite>(i).draw(_window);
+                }
+                _window->display();
+                usleep(1000);
+            }
         }
-        Window *getWindow() const { return _win; };
         EcsApi ecs;
         std::vector<std::shared_ptr<System>> _systems;
     private:
-        Window *_win;
+        /**
+         * @brief window name
+         */
+        std::string _windowName;
+        /**
+         * @brief window from SFML library
+         */
+        sf::RenderWindow *_window;
+        /**
+         * @brief width of the window
+         */
+        int _width;
+        /**
+         * @brief height of the window
+         */
+        int _height;
 };
