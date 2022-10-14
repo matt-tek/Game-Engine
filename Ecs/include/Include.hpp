@@ -18,6 +18,7 @@
 #include <map>
 #include <set>
 #include <unordered_map>
+#include <functional>
 
 #ifndef INCLUDE_HPP_
 #define INCLUDE_HPP_

@@ -55,4 +55,24 @@ class Sprite {
     private:
         sf::Texture _texture;
         sf::Sprite _sprite;
+        bool _isVisible;
+};
+
+class Input {
+    public:
+    void registerInput(sf::Keyboard::Key key, std::function<void()> func)
+    {
+        _inputs.insert({key, func});
+        return;
+    }
+
+    void checkInput() {
+        for (auto &i : _inputs) {
+            if (sf::Keyboard::isKeyPressed(i.first)) {
+                i.second();
+            }
+        }
+    }
+    private:
+        std::unordered_map<sf::Keyboard::Key, std::function<void()>> _inputs;
 };
