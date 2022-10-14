@@ -37,9 +37,11 @@ class Game {
                         _window->close();
                 }
                 _window->clear();
-                for (auto i : _systems[0]->entitySet) {
-                    ecs.getComponent<Sprite>(i)->draw(_window);
-                    _systems[0]->update();
+                for (int y = 0; y < (int)_systems.size(); y++) {
+                    for (auto i : _systems[y]->entitySet) {
+                        ecs.getComponent<Sprite>(i)->draw(_window);
+                        _systems[y]->update();
+                    }
                 }
                 _window->display();
                 usleep(1000);

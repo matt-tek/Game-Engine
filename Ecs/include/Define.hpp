@@ -12,7 +12,7 @@
 #include <memory>
 #include <unistd.h>
 
-#define MAX_ENTITIES 20
+#define MAX_ENTITIES 4000
 #define MAX_COMPONENTS 20
 
 /**
@@ -26,6 +26,9 @@
 * @param int entity to be targeted
 */
 #define getEntityPositionY(a) ecs.getComponent<Transform>(a).getPos().y
+
+#define getXTransform(x) game.ecs.getComponent<Transform>(x)
+#define getXSprite(x) game.ecs.getComponent<Sprite>(x)
 
 /**
 * @brief Signaature showing attached compoonents

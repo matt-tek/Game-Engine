@@ -16,6 +16,10 @@ class Transform {
         _pos.x += off_x;
         _pos.y += off_y;
     }
+    void setPos(sf::Vector2f pos)
+    {
+        _pos = pos;
+    }
     sf::Vector2f getPos(void) const
     {
         return _pos;

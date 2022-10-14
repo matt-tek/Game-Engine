@@ -7,35 +7,9 @@
 
 #include "Game.hpp"
 #include "AllComponents.hpp"
-
-#define getXTransform(x) game.ecs.getComponent<Transform>(x)
-#define getXSprite(x) game.ecs.getComponent<Sprite>(x)
+#include "AllSystems.hpp"
 
 Game game(600, 800, "Game");
-
-class Players : public System {
-    public:
-    void move(int off_x, int off_y, sf::Keyboard::Key k)
-    {
-        if (sf::Keyboard::isKeyPressed(k)) {
-            getXTransform(0)->move(off_x, off_y);
-            getXSprite(0)->getSprite()->setPosition(getXTransform(0)->getPos());
-        }
-    }
-    void update(void)
-    {
-        move(0, -10, sf::Keyboard::Key::Z);
-        move(-10, 0, sf::Keyboard::Key::Q);
-        move(0, 10, sf::Keyboard::Key::S);
-        move(10, 0, sf::Keyboard::Key::D);
-        for (int i = 0; i < (int)entitySet.size(); i++) {
-            game.ecs.getComponent<Transform>(i);
-            std::cout << i << std::endl;
-        }
-        return;
-    }
-    private:
-};
 
 int main(void)
 {
@@ -45,6 +19,7 @@ int main(void)
     game.ecs.registerComp<Input>();
     // register system
     game._systems.push_back(game.ecs.registerSystem<Players>());
+    game._systems.push_back(game.ecs.registerSystem<Projectiles>());
     //Set signature
     Signature s;
     s.set(game.ecs.getComponentId<Sprite>(), 1);
@@ -52,18 +27,15 @@ int main(void)
     s.set(game.ecs.getComponentId<Input>(), 1);
     game.ecs.setSystemSignature<Players>(s);
 
+    s.set(game.ecs.getComponentId<Input>(), 0);
+    game.ecs.setSystemSignature<Projectiles>(s);
 
     int e = game.ecs.createEntity();
-    game.ecs.addComponent<Transform>(e);
-    game.ecs.addComponent<Sprite>(e);
+    game.ecs.addComponent<Transform>(e)->addComponent<Sprite>(e);
     game.ecs.addComponent<Input>(e);
-    game.ecs.getComponent<Sprite>(e)->setSprite("./up_down.png");
-    game.ecs.getComponent<Sprite>(e)->setRect(sf::IntRect{0, 0, 34, 19}); // +33
-    game.ecs.getComponent<Input>(e)->registerInput(sf::Keyboard::Key::Z, []() { std::cout << "la moukat" << std::endl; });
-    game.ecs.getComponent<Input>(e)->registerInput(sf::Keyboard::Key::Q, []() { std::cout << "tete frai" << std::endl; });
-    game.ecs.getComponent<Input>(e)->registerInput(sf::Keyboard::Key::S, []() { std::cout << "zef" << std::endl; });
-    game.ecs.getComponent<Input>(e)->registerInput(sf::Keyboard::Key::D, []() { std::cout << "zef2" << std::endl; });
-
+    game.ecs.getComponent<Sprite>(e)->setSprite("../assets/up_down.png");
+    getXSprite(e)->getSprite()->setScale(sf::Vector2f{3, 3});
+    getXSprite(e)->setRect(sf::IntRect{0, 0, 34, 19}); // +33
 
     game.run();
     return 0;
