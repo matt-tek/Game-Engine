@@ -15,6 +15,7 @@
 */
 class System {
     public:
+    virtual void update() = 0;
     std::set<int> entitySet;
 };
 

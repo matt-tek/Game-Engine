@@ -8,14 +8,29 @@
 #include "Game.hpp"
 #include "AllComponents.hpp"
 
+#define getXTransform(x) game.ecs.getComponent<Transform>(x)
+#define getXSprite(x) game.ecs.getComponent<Sprite>(x)
+
 Game game(600, 800, "Game");
 
 class Players : public System {
     public:
+    void move(int off_x, int off_y, sf::Keyboard::Key k)
+    {
+        if (sf::Keyboard::isKeyPressed(k)) {
+            getXTransform(0)->move(off_x, off_y);
+            getXSprite(0)->getSprite()->setPosition(getXTransform(0)->getPos());
+        }
+    }
     void update(void)
     {
+        move(0, -10, sf::Keyboard::Key::Z);
+        move(-10, 0, sf::Keyboard::Key::Q);
+        move(0, 10, sf::Keyboard::Key::S);
+        move(10, 0, sf::Keyboard::Key::D);
         for (int i = 0; i < (int)entitySet.size(); i++) {
             game.ecs.getComponent<Transform>(i);
+            std::cout << i << std::endl;
         }
         return;
     }
@@ -37,15 +52,17 @@ int main(void)
     s.set(game.ecs.getComponentId<Input>(), 1);
     game.ecs.setSystemSignature<Players>(s);
 
+
     int e = game.ecs.createEntity();
     game.ecs.addComponent<Transform>(e);
     game.ecs.addComponent<Sprite>(e);
     game.ecs.addComponent<Input>(e);
-    game.ecs.getComponent<Sprite>(e).setSprite("../../assets/soul.png");
-    game.ecs.getComponent<Input>(e).registerInput(sf::Keyboard::Key::Z, []() { std::cout << "la moukat" << std::endl; });
-    game.ecs.getComponent<Input>(e).registerInput(sf::Keyboard::Key::Q, []() { std::cout << "tete frai" << std::endl; });
-    game.ecs.getComponent<Input>(e).registerInput(sf::Keyboard::Key::S, []() { std::cout << "zef" << std::endl; });
-    game.ecs.getComponent<Input>(e).registerInput(sf::Keyboard::Key::D, []() { std::cout << "fichtre" << std::endl; });
+    game.ecs.getComponent<Sprite>(e)->setSprite("./up_down.png");
+    game.ecs.getComponent<Sprite>(e)->setRect(sf::IntRect{0, 0, 34, 19}); // +33
+    game.ecs.getComponent<Input>(e)->registerInput(sf::Keyboard::Key::Z, []() { std::cout << "la moukat" << std::endl; });
+    game.ecs.getComponent<Input>(e)->registerInput(sf::Keyboard::Key::Q, []() { std::cout << "tete frai" << std::endl; });
+    game.ecs.getComponent<Input>(e)->registerInput(sf::Keyboard::Key::S, []() { std::cout << "zef" << std::endl; });
+    game.ecs.getComponent<Input>(e)->registerInput(sf::Keyboard::Key::D, []() { std::cout << "zef2" << std::endl; });
 
 
     game.run();

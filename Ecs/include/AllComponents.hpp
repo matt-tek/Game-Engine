@@ -48,13 +48,25 @@ class Sprite {
             _texture.loadFromFile(path);
             _sprite.setTexture(_texture);
         }
-        sf::Sprite getSprite(void) const { return _sprite; }
+        sf::Sprite *getSprite(void) { return &_sprite; }
         void draw(sf::RenderWindow *window) {
             window->draw(_sprite);
         }
-    private:
-        sf::Texture _texture;
+        void setRect(sf::IntRect rect)
+        {
+            _rect = rect;
+            _sprite.setTextureRect(_rect);
+        }
+        void move(int off_x, int off_y, Transform *transform)
+        {
+            transform->move(off_x, off_y);
+            _sprite.setPosition(transform->getPos());
+            return;
+        }
+        private:
         sf::Sprite _sprite;
+        sf::Texture _texture;
+        sf::IntRect _rect;
         bool _isVisible;
 };
 

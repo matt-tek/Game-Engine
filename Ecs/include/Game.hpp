@@ -38,11 +38,11 @@ class Game {
                 }
                 _window->clear();
                 for (auto i : _systems[0]->entitySet) {
-                    ecs.getComponent<Sprite>(i).draw(_window);
-                    ecs.getComponent<Input>(i).checkInput();
+                    ecs.getComponent<Sprite>(i)->draw(_window);
+                    _systems[0]->update();
                 }
                 _window->display();
-                // usleep(1000);z
+                usleep(1000);
             }
         }
         EcsApi ecs;

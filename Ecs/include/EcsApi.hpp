@@ -87,9 +87,9 @@ class EcsApi {
     * @param int entity to be targeted
     */
     template <typename T>
-    T& getComponent(int entity)
+    T *getComponent(int entity)
     {
-        return _components->getComp<T>(entity);
+        return &_components->getComp<T>(entity);
     }
 
     /**
