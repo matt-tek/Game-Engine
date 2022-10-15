@@ -13,6 +13,8 @@
 #ifndef ECSAPI_HPP_
 #define ECSAPI_HPP_
 
+using namespace std;
+
 /**
 * @brief class grouping all managers
 */
@@ -29,7 +31,13 @@ class EcsApi {
     */
     int createEntity()
     {
-        return _entities->createEntity();
+        _livingEntities.push_back(_entities->createEntity());
+        return _livingEntities[_livingEntities.size() - 1];
+    }
+
+    std::vector<int> getLivingEntities(void)
+    {
+        return _livingEntities;
     }
 
     /**
@@ -38,6 +46,7 @@ class EcsApi {
     */
     void destroyEntity(int entity)
     {
+        _livingEntities.erase(std::remove(_livingEntities.begin(), _livingEntities.end(), entity), _livingEntities.end());
         _entities->destroyEntity(entity);
     }
 
@@ -119,9 +128,28 @@ class EcsApi {
     {
         _systems->setSignature<T>(signature);
     }
+
+    Signature getSignature(int entity)
+    {
+        return _entities->getSignature(entity);
+    }
+
+    template <typename T>
+    bool entityHasComponent(int entity)
+    {
+        Signature s = _entities->getSignature(entity);
+
+        if (s[_components->getCompTypeId<T>()] == 1)
+            return true;
+        return false;
+    }
+
     std::unique_ptr<ComponentManager> _components;
 
     private:
+
+    std::vector<int> _livingEntities;
+
     /**
     * @brief pointer to entity manager class
     */

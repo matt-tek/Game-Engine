@@ -29,6 +29,11 @@ class Game {
             return;
         };
 
+        sf::RenderWindow *getWindow(void)
+        {
+            return _window;
+        }
+
         void run() {
             while (_window->isOpen()) {
                 sf::Event event;
@@ -37,11 +42,8 @@ class Game {
                         _window->close();
                 }
                 _window->clear();
-                for (int y = 0; y < (int)_systems.size(); y++) {
-                    for (auto i : _systems[y]->entitySet) {
-                        ecs.getComponent<Sprite>(i)->draw(_window);
-                        _systems[y]->update();
-                    }
+                for (size_t y = 0; y < _systems.size(); y++) {
+                    _systems[y]->update();
                 }
                 _window->display();
                 usleep(1000);

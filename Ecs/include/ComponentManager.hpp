@@ -26,6 +26,11 @@ class ComponentManager {
         currentComp++;
     }
 
+    size_t getCompSize(void)
+    {
+        return currentComp;
+    }
+
     /**
     * @brief get T component's id with its name
     */
