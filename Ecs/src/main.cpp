@@ -21,12 +21,16 @@ int main(void)
     game._systems.push_back(game.ecs.registerSystem<Players>());
     game._systems.push_back(game.ecs.registerSystem<SystemSprite>());
     game._systems.push_back(game.ecs.registerSystem<SystemTransform>());
+    game._systems.push_back(game.ecs.registerSystem<Projectiles>());
     //Set signature
     Signature s;
     s.set(game.ecs.getComponentId<Sprite>(), 1);
     s.set(game.ecs.getComponentId<Transform>(), 1);
     s.set(game.ecs.getComponentId<Input>(), 1);
     game.ecs.setSystemSignature<Players>(s);
+
+    s.set(game.ecs.getComponentId<Input>(), 0);
+    game.ecs.setSystemSignature<Projectiles>(s);
 
     s.set(game.ecs.getComponentId<Transform>(), 0);
     s.set(game.ecs.getComponentId<Input>(), 0);

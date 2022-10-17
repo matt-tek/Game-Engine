@@ -8,6 +8,12 @@
 #pragma once
 #include "Include.hpp"
 
+enum labels {
+    undefined,
+    player,
+    projectile
+};
+
 class EntityManager {
     public:
     /**
@@ -24,10 +30,11 @@ class EntityManager {
     * @brief Attribute _entities front element to returned entity
     *
     */
-    int createEntity(void)
+    int createEntity(labels label = labels::undefined)
     {
         int ret = _entities.front();
 
+        _labels.insert(std::pair<int, labels>(ret, label));
         _entities.pop();
         return ret;
     }
@@ -40,6 +47,7 @@ class EntityManager {
     void destroyEntity(int entity)
     {
         _entities.push(entity);
+        _labels.erase(entity);
         _signatures[entity].reset();
     }
 
@@ -63,6 +71,12 @@ class EntityManager {
     {
         return _signatures[entity];
     }
+
+    std::map<int, labels> getLabels(void)
+    {
+        return _labels;
+    }
+
     private:
 
     /**
@@ -74,4 +88,6 @@ class EntityManager {
     * @brief array conatining entitie's signatures
     */
     std::array<std::bitset<MAX_COMPONENTS>, MAX_ENTITIES> _signatures;
+
+    std::map<int, labels> _labels;
 };

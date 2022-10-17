@@ -12,7 +12,7 @@
 #include <memory>
 #include <unistd.h>
 
-#define MAX_ENTITIES 4000
+#define MAX_ENTITIES 5000
 #define MAX_COMPONENTS 20
 
 /**

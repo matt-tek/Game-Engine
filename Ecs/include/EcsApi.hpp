@@ -9,6 +9,7 @@
 #include "ComponentManager.hpp"
 #include "EntityManager.hpp"
 #include "SystemManager.hpp"
+#include <vector>
 
 #ifndef ECSAPI_HPP_
 #define ECSAPI_HPP_
@@ -29,10 +30,12 @@ class EcsApi {
     /**
     * @brief return newly assiocated entity's id
     */
-    int createEntity()
+    int createEntity(labels label = labels::undefined)
     {
-        _livingEntities.push_back(_entities->createEntity());
-        return _livingEntities[_livingEntities.size() - 1];
+        int i = _entities->createEntity(label);
+
+        _livingEntities.push_back(i);
+        return i;
     }
 
     std::vector<int> getLivingEntities(void)
@@ -46,8 +49,9 @@ class EcsApi {
     */
     void destroyEntity(int entity)
     {
-        _livingEntities.erase(std::remove(_livingEntities.begin(), _livingEntities.end(), entity), _livingEntities.end());
-        _entities->destroyEntity(entity);
+         _entities->destroyEntity(entity);
+        _components->EntityDestroyed(entity);
+        _livingEntities[entity] = -1;
     }
 
     /**
@@ -142,6 +146,11 @@ class EcsApi {
         if (s[_components->getCompTypeId<T>()] == 1)
             return true;
         return false;
+    }
+
+    std::map<int, labels> getLabels(void)
+    {
+        return _entities->getLabels();
     }
 
     std::unique_ptr<ComponentManager> _components;

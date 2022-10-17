@@ -16,7 +16,7 @@ class Players : public System {
     public:
     void createShoot(int entity)
     {
-        int p = game.ecs.createEntity();
+        int p = game.ecs.createEntity(labels::projectile);
         game.ecs.addComponent<Transform>(p);
         game.ecs.addComponent<Sprite>(p);
         getXSprite(p)->setSprite("../assets/player.png");
@@ -52,17 +52,41 @@ class Players : public System {
         sf::Vector2f vel = {2, 0};
 };
 
+class Projectiles : public System {
+    public:
+    void update(void)
+    {
+        std::vector<int> livingEntities = game.ecs.getLivingEntities();
+        std::map<int, labels> labels = game.ecs.getLabels();
+
+        for (size_t i = 0; i < livingEntities.size(); i++) {
+            if (labels[i] == labels::projectile &&
+                getXTransform(i)->getPos().x > 500) {
+                game.ecs.destroyEntity(i);
+            }
+        }
+        return;
+    }
+    private:
+};
+
 class SystemTransform : public System {
     public:
     void update(void)
     {
-        for (size_t i = 0; i < game.ecs.getLivingEntities().size(); i++) {
+        std::vector<int> living = game.ecs.getLivingEntities();
+
+        std::cout << living.size() << std::endl;
+        for (size_t i = 0; i < living.size(); i++) {
+            for (; living[i] == -1; i++);
             if (game.ecs.entityHasComponent<Transform>(i)) {
                 getXTransform(i)->move();
-                if (game.ecs.entityHasComponent<Sprite>(i))
+                if (game.ecs.entityHasComponent<Sprite>(i)) {
                     getXSprite(i)->getSprite()->setPosition(getXTransform(i)->getPos());
+                }
             }
         }
+        //std::cout << std::endl;
         return;
     }
     private:
